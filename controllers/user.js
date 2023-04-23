@@ -9,8 +9,12 @@ const emailValidator = require("email-validator");
 
 module.exports = {
     signUpUser: async (req, res) => {
-        const { name, password, passwordConfirmation } = req.body;
-        let { email } = req.body;
+        let { name, password, email, passwordConfirmation } = req.body;
+
+        name = name?.trim();
+        email = email?.trim();
+        password = password?.trim();
+        passwordConfirmation = passwordConfirmation?.trim();
 
         try {
 
@@ -26,7 +30,7 @@ module.exports = {
             // turn email to lowercase
             email = email.toLowerCase();
 
-            if(!emailValidator.validate(email)){
+            if (!emailValidator.validate(email)) {
                 return res.status(400).json({ message: "Invalid Email" })
             }
 
@@ -74,7 +78,9 @@ module.exports = {
     },
 
     signInUser: async (req, res) => {
-        const { email, password } = req.body;
+        let { email, password } = req.body;
+        email = email?.trim();
+        password = password?.trim();
 
         try {
 
@@ -121,7 +127,7 @@ module.exports = {
     },
 
     currentUser: async (req, res) => {
-        const { userId } = req.auth;
+        const { userId } = req?.auth;
 
         try {
 
@@ -138,14 +144,20 @@ module.exports = {
         }
     },
 
-    addTechnicalSkills: async(req, res) => {
-        const technical_skills = req.body.technical_skills?.trim();
-        const { userId } = req.auth;
+    addTechnicalSkills: async (req, res) => {
+        let { technical_skills } = req.body;
+        technical_skills = technical_skills?.trim();
+        const { userId } = req?.auth;
+
         try {
             const user = await User.findByPk(userId);
 
-            if(user === null){
+            if (user === null) {
                 return res.status(404).json({ message: "User not found" });
+            }
+
+            if (!technical_skills) {
+                return res.status(400).json({ message: "Cannot be empty" })
             }
 
             user.technical_skills = technical_skills;
@@ -153,29 +165,35 @@ module.exports = {
 
             return res.status(200).json(user);
         } catch (error) {
-            
+
         }
     },
 
-    addSoftSkills: async(req, res) => {
-        
-        const soft_skills = req.body.soft_skills?.trim();
-        const { userId } = req.auth;
+    addSoftSkills: async (req, res) => {
+
+        let { soft_skills } = req.body;
+        soft_skills = soft_skills?.trim();
+
+        const { userId } = req?.auth;
 
         try {
 
             const user = await User.findByPk(userId);
 
-            if(user === null){
+            if (user === null) {
                 return res.status(404).json({ message: "User not found" });
+            }
+
+            if (!soft_skills) {
+                return res.status(400).json({ message: "Cannot be empty" })
             }
 
             user.soft_skills = soft_skills;
             await user.save();
-            
+
             return res.status(200).json(user);
         } catch (error) {
-            
+
         }
     },
 
