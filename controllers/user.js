@@ -138,6 +138,47 @@ module.exports = {
         }
     },
 
+    addTechnicalSkills: async(req, res) => {
+        const technical_skills = req.body.technical_skills?.trim();
+        const { userId } = req.auth;
+        try {
+            const user = await User.findByPk(userId);
+
+            if(user === null){
+                return res.status(404).json({ message: "User not found" });
+            }
+
+            user.technical_skills = technical_skills;
+            await user.save();
+
+            return res.status(200).json(user);
+        } catch (error) {
+            
+        }
+    },
+
+    addSoftSkills: async(req, res) => {
+        
+        const soft_skills = req.body.soft_skills?.trim();
+        const { userId } = req.auth;
+
+        try {
+
+            const user = await User.findByPk(userId);
+
+            if(user === null){
+                return res.status(404).json({ message: "User not found" });
+            }
+
+            user.soft_skills = soft_skills;
+            await user.save();
+            
+            return res.status(200).json(user);
+        } catch (error) {
+            
+        }
+    },
+
     findAllUsers: async (req, res) => {
         try {
             const users = await User.findAndCountAll({
@@ -159,7 +200,7 @@ module.exports = {
         try {
             const user = await User.findOne({
                 where: { uuid },
-                attributes: ['uuid', 'name', 'email', 'emailVerified', 'companyId', 'userGroupId', 'status']
+                attributes: ['uuid', 'name', 'email']
             });
 
             if (user === null) {

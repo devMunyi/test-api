@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tbl_users', {
+    await queryInterface.createTable('tbl_skills', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,27 +11,24 @@ module.exports = {
       },
       uuid: {
         type: Sequelize.STRING,
-        unique: true,
-        defautValue: Sequelize.UUIDV4
+        defaultValue: Sequelize.UUIDV4,
+        unique: true
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
+      addedBy: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'tbl_users',
+          key: 'id'
+        },
+        onUpdate: 'RESTRICT',
+        onDelete: 'RESTRICT'
       },
-      email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
-      },
-      technical_skills: {
+      csv: {
         type: Sequelize.TEXT
       },
-      soft_skills: {
-        type: Sequelize.TEXT
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false
+      deletedAt: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -40,13 +37,10 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      deletedAt: {
-        type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tbl_users');
+    await queryInterface.dropTable('tbl_skills');
   }
 };

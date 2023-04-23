@@ -17,12 +17,12 @@ module.exports = {
         if (token) {
             token = token.slice(7);
             verify(token, secret, (err, decoded) => {
-                const { userId } = decoded;
                 if (err) {
                     res.status(401).json({
                         message: 'Invalid token, please login',
                     });
                 } else {
+                    const { userId } = decoded;
                     req.auth = { userId };
                     next();
                 }

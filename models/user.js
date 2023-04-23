@@ -9,13 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate({ Skill }) {
       // define association here
+      this.hasOne(Skill, { foreignKey: 'addedBy' })
     }
 
     //override response body 
     toJSON() {
-      return { ...this.get(), id: undefined }
+      return { ...this.get(), id: undefined, deletedAt: undefined, password: undefined }
     }
   }
   User.init({
@@ -33,6 +34,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
+    technical_skills: {
+      type: DataTypes.TEXT
+    },
+    soft_skills: {
+      type: DataTypes.TEXT
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -41,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
     tableName: 'tbl_users',
-    paranoid: true, //for soft deletion
+    paranoid: true, // for soft deletion
   });
   return User;
 };
