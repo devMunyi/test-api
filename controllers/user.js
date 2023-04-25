@@ -127,7 +127,7 @@ module.exports = {
     },
 
     currentUser: async (req, res) => {
-        const { userId } = req?.auth;
+        const { userId } = req.auth;
 
         try {
 

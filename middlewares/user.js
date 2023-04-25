@@ -13,7 +13,9 @@ module.exports = {
 
     //validate token
     checkToken: (req, res, next) => {
+        console.log("HEADER => ", req.headers);
         let token = req.get('authorization');
+        console.log("TOKEN : ", token);
         if (token) {
             token = token.slice(7);
             verify(token, secret, (err, decoded) => {
