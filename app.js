@@ -7,7 +7,7 @@ const swaggerFile = require('./swagger_output.json');
 const { sequelize } = require("./models");
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(morgan("dev"));
