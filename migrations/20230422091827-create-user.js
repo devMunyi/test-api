@@ -14,7 +14,7 @@ module.exports = {
         unique: true,
         defautValue: Sequelize.UUIDV4
       },
-      name: {
+      fullname: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -30,8 +30,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       password: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

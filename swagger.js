@@ -23,8 +23,8 @@ const doc = {
     produces: ["application/json"],
     tags: [
         {
-            "name": "Auth",
-            "description": "Auth endpoints"
+            "name": "Submit Info API",
+            "description": "Info endpoints"
         }
     ],
     paths: {
@@ -55,8 +55,8 @@ const doc = {
                 // }
             }
         },
-        "/api/v1/users/update-soft-skills": {
-            put: {
+        "/api/v1/users/info": {
+            post: {
 
                 "security": [
                     {

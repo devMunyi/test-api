@@ -13,15 +13,18 @@ module.exports = {
 
     //validate token
     checkToken: (req, res, next) => {
-        console.log("HEADER => ", req.headers);
+
         let token = req.get('authorization');
-        console.log("TOKEN : ", token);
+
         if (token) {
+            if(!token.includes('Bearer')){
+                return res.status(400).json({ message: "Bad request" })
+            }
             token = token.slice(7);
             verify(token, secret, (err, decoded) => {
                 if (err) {
-                    res.status(401).json({
-                        message: 'Invalid token, please login',
+                    return res.status(401).json({
+                        message: 'You entered invalid token',
                     });
                 } else {
                     const { userId } = decoded;

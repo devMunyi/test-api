@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       defaultValue: DataTypes.UUIDV4
     },
-    name: {
+    fullname: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -41,8 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING
     }
   }, {
     sequelize,

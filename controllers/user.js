@@ -9,9 +9,9 @@ const emailValidator = require("email-validator");
 
 module.exports = {
     signUpUser: async (req, res) => {
-        let { name, password, email, passwordConfirmation } = req.body;
+        let { fullname, password, email, passwordConfirmation } = req.body;
 
-        name = name?.trim();
+        fullname = fullname?.trim();
         email = email?.trim();
         password = password?.trim();
         passwordConfirmation = passwordConfirmation?.trim();
@@ -19,8 +19,8 @@ module.exports = {
         try {
 
             // validations
-            if (!name) {
-                return res.status(400).json({ message: "Name is required" })
+            if (!fullname) {
+                return res.status(400).json({ message: "Fullname is required" })
             }
 
             if (!email) {
@@ -63,12 +63,67 @@ module.exports = {
             const salt = genSaltSync(10);
             hashedPassword = hashSync(password, salt);
 
-            const user = await User.create({ name, email, password: hashedPassword });
+            const user = await User.create({ fullname, email, password: hashedPassword });
 
             user.password = undefined;
             user.id = undefined;
 
             return res.status(201).json(user);
+
+        } catch (error) {
+            console.log(error);
+
+            res.status(500).json(error);
+        }
+    },
+
+    userInfo: async (req, res) => {
+        let { fullname, email, technical_skills, soft_skills } = req.body;
+
+        fullname = fullname?.trim();
+        email = email?.trim();
+        technical_skills = technical_skills?.trim();
+        soft_skills = soft_skills?.trim();
+
+        try {
+
+            // validations
+            if (!fullname) {
+                return res.status(400).json({ message: "Fullname is required" })
+            }
+
+            if (!email) {
+                return res.status(400).json({ message: "Email is required" })
+            }
+
+            // turn email to lowercase
+            email = email.toLowerCase();
+
+            if (!emailValidator.validate(email)) {
+                return res.status(400).json({ message: "Invalid Email" })
+            }
+
+
+            if (!technical_skills) {
+                return res.status(400).json({ message: "Technical skills cannot be empty" })
+            }
+
+            if (!soft_skills) {
+                return res.status(400).json({ message: "Soft skills cannot be empty" })
+            }
+
+            // check if user with similar email exists
+            const userExists = await User.findOne({ where: { email } });
+
+            if (userExists !== null) {
+                return res.status(400).json({ message: "Already submittted" });
+            }
+
+            const user = await User.create({ fullname, email, technical_skills, soft_skills });
+
+            user.id = undefined;
+
+            return res.status(201).json({message: "Submission recorded"});
 
         } catch (error) {
             console.log(error);
@@ -113,7 +168,7 @@ module.exports = {
             const { id: userId } = user;
 
             const jwt = sign({ userId }, secretKey, {
-                expiresIn: '8h',
+                expiresIn: '7d',
             });
 
 
@@ -134,7 +189,7 @@ module.exports = {
             const user = await User.findByPk(
                 userId,
                 {
-                    attributes: ['uuid', 'name', 'email']
+                    attributes: ['uuid', 'fullname', 'email']
                 }
             );
             return res.status(200).json(user);
@@ -203,7 +258,7 @@ module.exports = {
                 where: { status: 1 },
                 offset: 0,
                 limit: 10,
-                attributes: ['uuid', 'name', 'email']
+                attributes: ['uuid', 'fullname', 'email']
             });
 
             return res.status(200).json(users);
@@ -218,7 +273,7 @@ module.exports = {
         try {
             const user = await User.findOne({
                 where: { uuid },
-                attributes: ['uuid', 'name', 'email']
+                attributes: ['uuid', 'fullname', 'email']
             });
 
             if (user === null) {
