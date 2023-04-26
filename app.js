@@ -12,7 +12,7 @@ const port = process.env.PORT || 4000;
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
+app.use('/api/v1/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
   swaggerOptions: {
     docExpansions: "none",
     persistAuthorization: true

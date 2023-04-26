@@ -5,7 +5,7 @@
     "title": "Test API",
     "description": "This is a REST API meant for testing purpose. It can allow you to submit your basic information"
   },
-  "host": "https://backgen.net",
+  "host": "localhost:4000",
   "basePath": "/api/v1",
   "tags": [
     {
