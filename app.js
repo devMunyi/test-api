@@ -9,13 +9,29 @@ const { sequelize } = require("./models");
 const app = express();
 const port = process.env.PORT || 4000;
 
+const DisableTryItOutPlugin = function() {
+  return {
+    statePlugins: {
+      spec: {
+        wrapSelectors: {
+          allowTryItOutFor: () => () => false
+        }
+      }
+    }
+  }
+}
+
+// elsewhere, when you call Swagger-UI...
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use('/api/v1/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
   swaggerOptions: {
     docExpansions: "none",
-    persistAuthorization: true
+    persistAuthorization: true,
+    plugins: [
+      DisableTryItOutPlugin
+    ]
  }
 }))
 
