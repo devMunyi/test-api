@@ -21,7 +21,6 @@ const DisableTryItOutPlugin = function() {
   }
 }
 
-// elsewhere, when you call Swagger-UI...
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
@@ -39,8 +38,6 @@ app.use('/api/v1/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
 readdirSync('./routes').map((r) =>
   app.use('/api/v1', require(`./routes/${r}`))
 );
-
-// app.use('/api/v1/routes/users');
 
 app.listen(port, async()=> {
     console.log(`API up and running on port ${port}`);
