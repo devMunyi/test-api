@@ -255,10 +255,7 @@ module.exports = {
     findAllUsers: async (req, res) => {
         try {
             const users = await User.findAndCountAll({
-                where: { status: 1 },
-                offset: 0,
-                limit: 10,
-                attributes: ['uuid', 'fullname', 'email']
+                attributes: ['uuid', 'fullname', 'email', 'technical_skills', 'soft_skills']
             });
 
             return res.status(200).json(users);
