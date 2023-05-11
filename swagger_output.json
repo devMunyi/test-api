@@ -10,7 +10,7 @@
   "tags": [
     {
       "name": "Submit Info API",
-      "description": "token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MjQ5MjU1NywiZXhwIjoxNjgzMDk3MzU3fQ.Dm1CHdcvC9_wDcZswR8xsAdHHqc9c55ivEeCU9Qk_E4"
+      "description": "token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwLCJpYXQiOjE2ODM3OTc2NTgsImV4cCI6MTY4NDQwMjQ1OH0.f6DC80DeMttRuCs5qEoC4P9wCscII73bNdK4fVKEslo"
     }
   ],
   "schemes": [
